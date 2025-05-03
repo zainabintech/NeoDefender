@@ -12,7 +12,7 @@ I created this game because I was inspired by The Matrix series and wanted to br
 
 ## Click the link below to start playing NeoDefender: 
 
-- https://zainabhammad.github.io/NeoDefender/
+- https://zainabintech.github.io/NeoDefender/
 
 ## How to Play
 
