@@ -1,5 +1,5 @@
 body {
-    font-family: 'Courier New', Courier, monospace; 
+    font-family: 'Courier New', Courier, monospace;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -12,6 +12,18 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* Dimming + vignette layer over the Matrix rain so foreground text stays
+   crisp and readable instead of the rain bleeding through it. */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse at center, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.82) 100%);
 }
 
 .endGameDisplay {
@@ -38,17 +50,33 @@ body {
   }
   
 button {
-    padding: 10px 20px;
-    background-color: red;
-    color: white;
+    padding: 12px 26px;
+    background: linear-gradient(180deg, #00ff41, #00b82f);
+    color: #001b09;
+    font-weight: bold;
+    letter-spacing: 1px;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
+    box-shadow: 0 0 14px rgba(0, 255, 65, 0.45);
+    transition: transform 0.15s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
 button:hover {
-    background-color: #1665c1;
+    background: linear-gradient(180deg, #4dff79, #00cc34);
+    box-shadow: 0 0 24px rgba(0, 255, 65, 0.8);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* "Are You Ready, Neo?" launch button */
+.startButton {
+    padding: 16px 40px;
+    font-size: 1.3em;
 }
 
 table {
@@ -103,36 +131,62 @@ button.story-btn:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
     flex-direction: column;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    z-index: 1;
+    z-index: 5;
+    padding: 48px 56px;
+    border: 2px solid rgba(0, 255, 65, 0.6);
+    border-radius: 16px;
+    background: rgba(0, 8, 4, 0.78);
+    box-shadow: 0 0 40px rgba(0, 255, 65, 0.25), inset 0 0 60px rgba(0, 255, 65, 0.06);
+    backdrop-filter: blur(2px);
 }
 
 #startgame-page h1 {
-    font-size: 4em;
-    margin-bottom: 20px;
+    font-size: 4.5em;
+    margin: 0 0 10px;
+    letter-spacing: 4px;
     font-family: "Courier New", Courier, monospace;
-    text-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00, 0 0 15px #00FF00;
+    color: #b9ffd0;
+    text-shadow: 0 0 8px #00FF41, 0 0 18px #00FF41, 0 0 36px rgba(0, 255, 65, 0.6);
+}
+
+#startgame-page::after {
+    content: "Defend the Matrix. One pill at a time.";
+    display: block;
+    margin-top: 26px;
+    font-size: 1em;
+    letter-spacing: 2px;
+    color: #00ff41;
+    opacity: 0.75;
 }
 
 #startgame-btn {
-    background-color: #00FF00;
+    background: linear-gradient(180deg, #00ff41, #00b82f);
     border: none;
-    padding: 10px 20px;
-    font-size: 1.5em;
+    padding: 14px 38px;
+    font-size: 1.4em;
+    font-weight: bold;
+    letter-spacing: 1px;
     cursor: pointer;
-    border-radius: 5px;
-    color: black;
-    transition: background-color 0.3s;
+    border-radius: 6px;
+    color: #001b09;
+    box-shadow: 0 0 18px rgba(0, 255, 65, 0.5);
+    transition: transform 0.15s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
 #startgame-btn:hover {
-    background-color: #00cc00;
+    background: linear-gradient(180deg, #4dff79, #00cc34);
+    box-shadow: 0 0 28px rgba(0, 255, 65, 0.85);
+    transform: translateY(-2px);
+}
+
+#startgame-btn:active {
+    transform: translateY(0);
 }
 
 #story-page {
@@ -141,29 +195,287 @@ button.story-btn:hover {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #000;
-    color: #00ff00;
+    color: #00ff41;
+    position: relative;
+    z-index: 5;
+    padding: 20px;
 }
 
 .story {
     display: none;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.8);
-    border-radius: 10px;
+    max-width: 760px;
+    width: 92%;
+    padding: 36px 40px;
+    background: rgba(0, 8, 4, 0.82);
+    border-radius: 14px;
     margin: 10px 0;
-    border: 3px solid #00FF00;
-    box-shadow: 0 0 20px 5px rgba(0, 255, 0, 0.5);
+    border: 2px solid rgba(0, 255, 65, 0.6);
+    box-shadow: 0 0 36px rgba(0, 255, 65, 0.25), inset 0 0 50px rgba(0, 255, 65, 0.05);
+    backdrop-filter: blur(2px);
+    animation: storyFade 0.5s ease;
+}
+
+@keyframes storyFade {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.story h1 {
+    color: #b9ffd0;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.7);
+    margin-top: 0;
 }
 
 .story:first-of-type {
     display: block;
 }
 
+/* ---- Onboarding flow components ---- */
 
-.gameZoneDisplay {
-    border: 2px solid #00ff41;
+.step-tag {
+    display: inline-block;
+    font-size: 0.8em;
+    letter-spacing: 2px;
+    color: #00ff41;
+    opacity: 0.6;
+    margin-bottom: 6px;
+}
+
+.story p {
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.story strong {
+    color: #b9ffd0;
+}
+
+.story-actions {
+    margin-top: 26px;
+}
+
+/* progress dots */
+.story-progress {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 6;
+}
+
+.story-progress .dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 255, 65, 0.5);
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.story-progress .dot.active {
+    background: #00ff41;
+    box-shadow: 0 0 10px #00ff41;
+    border-color: #00ff41;
+}
+
+/* skip link */
+.skip-btn {
+    position: fixed;
+    top: 22px;
+    right: 26px;
+    z-index: 6;
+    background: transparent !important;
+    color: #00ff41 !important;
+    border: 1px solid rgba(0, 255, 65, 0.4) !important;
+    box-shadow: none !important;
+    font-size: 0.85em;
+    padding: 8px 16px !important;
+    letter-spacing: 1px;
+    opacity: 0.7;
+}
+
+.skip-btn:hover {
+    opacity: 1;
+    border-color: #00ff41 !important;
+    transform: none !important;
+}
+
+/* typewriter intro */
+.typed {
+    min-height: 1.6em;
+}
+
+.cursor {
+    display: inline-block;
+    color: #00ff41;
+    font-weight: bold;
+    animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+    to { opacity: 0; }
+}
+
+/* glitchy heading */
+.glitch {
+    position: relative;
+    animation: flicker 3s infinite;
+}
+
+@keyframes flicker {
+    0%, 92%, 100% { opacity: 1; }
+    93% { opacity: 0.6; }
+    95% { opacity: 1; }
+    97% { opacity: 0.4; }
+}
+
+.final-line {
+    line-height: 1.25;
+    font-size: 2.4em;
+}
+
+/* target cards (blue vs red) */
+.target-grid {
+    display: flex;
+    gap: 22px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 10px 0;
+}
+
+.target-card {
+    position: relative;
+    flex: 1 1 240px;
+    max-width: 300px;
+    padding: 22px 20px 24px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+}
+
+.target-card.catch { border-color: rgba(43, 139, 255, 0.6); }
+.target-card.avoid { border-color: rgba(255, 43, 43, 0.6); }
+
+.target-card img {
+    width: 92px;
+    height: 92px;
+    border: none;
+    box-shadow: none;
+    margin: 4px 0 6px;
+    filter: drop-shadow(0 0 12px rgba(0, 255, 65, 0.35));
+}
+
+.target-card h3 {
+    margin: 8px 0;
+    color: #b9ffd0;
+    font-size: 1.15em;
+}
+
+.target-card p {
+    font-size: 0.95em;
+    color: #9fffc0;
+}
+
+.badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.72em;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+}
+
+.badge.good { background: #2b8bff; color: #001226; }
+.badge.bad  { background: #ff2b2b; color: #260000; }
+
+/* defenses + briefing lists */
+.defense-list,
+.brief-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px auto;
+    max-width: 560px;
+    text-align: left;
+}
+
+.defense-list li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.12);
+    font-size: 1em;
+    color: #9fffc0;
+}
+
+.defense-list li:last-child { border-bottom: none; }
+
+.defense-list img {
+    width: 38px;
+    height: 38px;
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.defense-list .marker,
+.brief-list .ico {
+    width: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* glowing status dots (replacing emojis) */
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.dot-blue  { background: #2b8bff; box-shadow: 0 0 9px #2b8bff; }
+.dot-red   { background: #ff2b2b; box-shadow: 0 0 9px #ff2b2b; }
+.dot-green { background: #00ff41; box-shadow: 0 0 9px #00ff41; }
+
+.brief-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 0;
+    font-size: 1.05em;
+    color: #9fffc0;
+}
+
+
+/* Background Matrix rain — sits behind everything */
+#matrixRain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background: #000;
+}
+
+/* Foreground game canvas — transparent so the rain shows through */
+#gameZoneDisplay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
     display: block;
-    background: radial-gradient(circle, #000000, #001a0f);
+    background: transparent;
+    touch-action: none; /* prevent scroll/zoom on touch devices */
 }
 
 .startgame-page {
@@ -197,20 +509,40 @@ button.story-btn:hover {
 }
 
 .scoreAndTimeDisplay {
-    position: absolute;
+    position: fixed;
     top: 10px;
     left: 10px;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 10px;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    background: rgba(0, 8, 4, 0.8);
+    padding: 10px 14px;
     font-size: 16px;
     border: 1px solid #00ff41;
-    border-radius: 5px;
+    border-radius: 6px;
+    box-shadow: 0 0 12px rgba(0, 255, 65, 0.4);
+    text-shadow: 0 0 6px rgba(0, 255, 65, 0.6);
+}
+
+.hud-item span {
+    color: #fff;
+    font-weight: bold;
+}
+
+.combo-item {
+    color: #2b8bff;
+}
+
+.combo-item span {
+    color: #7fb8ff;
 }
 
 .shieldsDisplay {
-    position: absolute;
+    position: fixed;
     top: 1em;
     right: 1em;
+    z-index: 2;
     display: flex;
     gap: 0.5em;
 }
@@ -218,4 +550,82 @@ button.story-btn:hover {
 .shield {
     width: 40px;
     height: 40px;
+    border: none;
+    box-shadow: none;
+    margin-top: 0;
+    filter: drop-shadow(0 0 6px rgba(0, 255, 65, 0.7));
+}
+
+/* End screen */
+.endGameDisplay {
+    z-index: 3;
+}
+
+#finalScore {
+    font-size: 1.1em;
+    color: #00ff41;
+    margin: 6px 0;
+}
+
+#highScore {
+    font-size: 1.2em;
+    color: #ffd700;
+    margin: 6px 0 18px;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
+
+#playAgainButton {
+    background-color: #00ff41;
+    color: black;
+    font-weight: bold;
+    box-shadow: 0 0 14px rgba(0, 255, 65, 0.6);
+}
+
+#playAgainButton:hover {
+    background-color: #00cc34;
+}
+
+/* ---- Responsive / mobile ---- */
+@media (max-width: 600px) {
+    .scoreAndTimeDisplay {
+        font-size: 13px;
+        padding: 8px 10px;
+        gap: 4px 10px;
+    }
+    .shield {
+        width: 28px;
+        height: 28px;
+    }
+    .endGameDisplay {
+        font-size: 18px;
+        padding: 0 16px;
+    }
+    #startgame-page {
+        padding: 32px 26px;
+    }
+    #startgame-page h1 {
+        font-size: 2.6em;
+    }
+    .story {
+        padding: 26px 20px;
+        font-size: 0.92em;
+    }
+    .final-line {
+        font-size: 1.7em;
+    }
+    .target-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+    .target-card {
+        max-width: 100%;
+        width: 100%;
+    }
+    .skip-btn {
+        top: 14px;
+        right: 14px;
+    }
+    .story-progress {
+        bottom: 16px;
+    }
 }

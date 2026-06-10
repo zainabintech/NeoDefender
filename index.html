@@ -10,68 +10,120 @@
 
 <body>
 
+    <!-- Matrix digital-rain background (shared across pages) -->
+    <canvas id="matrixRain"></canvas>
+
      <div id="startgame-page">
         <h1>NeoDefender</h1>
         <button id="startgame-btn">Start Game</button>
     </div>
 
     <div id="story-page">
+
+        <!-- progress indicator -->
+        <div class="story-progress">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+
+        <!-- skip for returning players -->
+        <button id="skip-intro" class="skip-btn">Skip intro »</button>
+
+        <!-- Step 1 — the awakening -->
         <div class="story" id="s1">
-            <h1>Wake up, Neo</h1>
-            <p>You’ve been awakened, chosen to decide the fate of humanity in the war between man and machine.</p>
-            <button class="story-btn" data-next="s2">What choice do you have?</button>
+            <h1 class="glitch" data-text="Wake up, Neo…">Wake up, Neo…</h1>
+            <p class="typed" id="typed-line" data-text="The Matrix has you. The system has been breached — and only you can defend it."></p>
+            <span class="cursor">_</span>
+            <div class="story-actions">
+                <button class="story-btn" data-next="s2">Follow the white rabbit →</button>
+            </div>
         </div>
 
+        <!-- Step 2 — the war -->
         <div class="story" id="s2">
-            <h1>Your Choice</h1>
-            <table>
-                <tr>
-                    <td>
-                        <h2>Red Pill</h2>
-                        <p>Represents safe, essential data that sustains the system. It is harmless and vital to the balance of the Matrix. Your mission: protect this truth, allowing it to flow freely and keeping the system intact.</p>
-                        <img src="./image/red-pill.png" alt="Red Pill" style="width: 150px; height: 150px;">
-                    </td>
-                    <td>
-                        <h2>Blue Pill</h2>
-                        <p>The Blue Pill: Represents the virus—malevolent, corrupting data sent by the machines. Symbolizes illusion and ignorance, destabilizing the Matrix. Your duty: block this destructive force before it brings chaos and collapse.</p>
-                        <img src="./image/blue-pill.png" alt="Blue Pill" style="width: 150px; height: 150px;">
-                    </td>
-                </tr>
-            </table>
-            <button class="story-btn" data-next="s3">Rules</button>
+            <span class="step-tag">// Briefing 01</span>
+            <h1>The War for the Matrix</h1>
+            <p>The machines are flooding the system with corrupted code. Pure <strong>data</strong> and malicious <strong>viruses</strong> now fall together through the Matrix.</p>
+            <p>As the <strong>Defender</strong>, you must tell them apart — and act before the system collapses.</p>
+            <div class="story-actions">
+                <button class="story-btn" data-next="s3">Show me the threat →</button>
+            </div>
         </div>
 
+        <!-- Step 3 — targets -->
         <div class="story" id="s3">
-            <h1>System Rules</h1>
-            <table>
-                <tr>
-                    <td>
-                        <h2>System Shields</h2>
-                        <p>Each mistake weakens the system. If your shields deplete, the Matrix falls.</p>
-                    </td>
-                    <td>
-                        <h2>The Clock is Ticking</h2>
-                        <p>The attack intensifies over time. Can you keep up with the growing threat?</p>
-                    </td>
-                </tr>
-            </table>
-            <button class="story-btn" data-next="s5">Next</button>
+            <span class="step-tag">// Briefing 02 — Targets</span>
+            <h1>Know Your Targets</h1>
+            <div class="target-grid">
+                <div class="target-card catch">
+                    <img src="./image/blue-pill.png" alt="Blue Pill">
+                    <span class="badge good">CATCH</span>
+                    <h3>Blue Pill — Data</h3>
+                    <p>Pure truth keeping the Matrix alive. <strong>Click</strong> every blue pill before it falls off-screen. Each one saved = points. Let one escape and your system takes the hit.</p>
+                </div>
+                <div class="target-card avoid">
+                    <img src="./image/red-pill.png" alt="Red Pill">
+                    <span class="badge bad">AVOID</span>
+                    <h3>Red Pill — Virus</h3>
+                    <p>Corrupted code sent by the machines. <strong>Never touch it.</strong> Click a red pill and you lose a shield. Just let it fall harmlessly past you.</p>
+                </div>
+            </div>
+            <div class="story-actions">
+                <button class="story-btn" data-next="s4">And my defenses? →</button>
+            </div>
         </div>
 
+        <!-- Step 4 — defenses -->
+        <div class="story" id="s4">
+            <span class="step-tag">// Briefing 03 — Defenses</span>
+            <h1>Your Defenses</h1>
+            <ul class="defense-list">
+                <li><img src="./image/shield.png" alt="Shield"><span><strong>Shields ×5</strong> — five stand between you and collapse. Lose them all and the Matrix falls.</span></li>
+                <li><span class="marker"><i class="dot dot-green"></i></span><span><strong>Shield Pill</strong> — a rare glowing pill. Catch it to restore a lost shield.</span></li>
+                <li><span class="marker"><i class="dot dot-green"></i></span><span><strong>The Clock</strong> — survive 60 seconds to win.</span></li>
+                <li><span class="marker"><i class="dot dot-green"></i></span><span><strong>Levels</strong> — every few seconds the system escalates: more pills, greater speed.</span></li>
+            </ul>
+            <div class="story-actions">
+                <button class="story-btn" data-next="s5">How do I win? →</button>
+            </div>
+        </div>
+
+        <!-- Step 5 — quick reference -->
         <div class="story" id="s5">
-            <p>The Future of the Matrix is in Your Hands.</p>
-            <button class="startButton" data-next="s1">Are You Ready, Neo?</button>
-          </div>
-        
-         
+            <span class="step-tag">// Mission Briefing</span>
+            <h1>Mission Briefing</h1>
+            <ul class="brief-list">
+                <li><span class="ico"><i class="dot dot-blue"></i></span> Click <strong>blue</strong> pills to score — don't let them escape.</li>
+                <li><span class="ico"><i class="dot dot-red"></i></span> Avoid <strong>red</strong> pills — let them fall.</li>
+                <li><span class="ico"><i class="dot dot-green"></i></span> Catch glowing <strong>shield</strong> pills to recover.</li>
+                <li><span class="ico"><i class="dot dot-green"></i></span> Chain catches to build a <strong>combo</strong> multiplier.</li>
+                <li><span class="ico"><i class="dot dot-green"></i></span> Survive the full <strong>60 seconds</strong> to win.</li>
+            </ul>
+            <div class="story-actions">
+                <button class="story-btn" data-next="s6">I'm ready →</button>
+            </div>
+        </div>
+
+        <!-- Step 6 — launch -->
+        <div class="story" id="s6">
+            <h1 class="final-line">The Future of the Matrix<br>Is in Your Hands</h1>
+            <p>There is no second chance. There is no spoon. There is only you.</p>
+            <div class="story-actions">
+                <button class="startButton">Are You Ready, Neo?</button>
+            </div>
+        </div>
+
     </div>
 
-    <audio id="background-music" >
+    <audio id="background-music" loop>
         <source src="audio/The Matrix Reloaded OST - Highway Chase Music.mp3" type="audio/mpeg">
-    </audio> 
+    </audio>
 
-    
-
+    <script src="./js/matrixRain.js"></script>
     <script src="./js/app.js"></script>
 </body>
 

@@ -1,40 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Game</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>NeoDefender</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
-    <!--Display 1.1 - while the game is playing ((score and remaining time)) will be displayed  -->
-    <div class="scoreAndTimeDisplay hide"> // 
-        <!--this div will be played  while the game is on but initally we will put it hide -->
-        <span id="score"> Score: 0 </span> | Time: <span id="timer">60</span> 
-        <!--this will provide info about the time left and the so far score the player has -->
-    </div>
+  <!-- Background layer: Matrix digital rain -->
+  <canvas id="matrixRain"></canvas>
 
-    <!-- Display 1.2 - this will show the shields, the chances reamining if player makes mistakes  -->
-    <div class="shieldsDisplay hide">
-        <img src="./image/shield.png" alt="Shield" class="shield">
-        <img src="./image/shield.png" alt="Shield" class="shield">
-        <img src="./image/shield.png" alt="Shield" class="shield">
-        <img src="./image/shield.png" alt="Shield" class="shield">
-        <img src="./image/shield.png" alt="Shield" class="shield">
-    </div>
+  <!-- Foreground layer: the actual game zone where pills are drawn -->
+  <canvas id="gameZoneDisplay"></canvas>
 
-    <!--Display 2 - once the game ends  -->
-    <!--Game over screen, when the player ends the game,either won or lose -->
-    <div class="endGameDisplay hide"> 
-        <p id="result"></p> <!--- here i put the result, if the player lose or won , there will be a message indicting that  -->
-        <button id="playAgainButton">Play Again</button> <!-- button to play the game again --> 
-    </div>
+  <!-- HUD: score / time / level / combo, shown while the game is running -->
+  <div class="scoreAndTimeDisplay hide">
+    <span class="hud-item">Score: <span id="score">0</span></span>
+    <span class="hud-item">Time: <span id="timer">60</span>s</span>
+    <span class="hud-item">Level: <span id="level">1</span></span>
+    <span class="hud-item combo-item">Combo: <span id="combo">0</span>x</span>
+  </div>
 
-    <!--Display 3 - this is the main game zone where  we gonna draw the entire game and game logic  will happen 
--->
-    <canvas id="gameZoneDisplay"></canvas>
+  <!-- Shields: remaining chances before the Matrix collapses -->
+  <div class="shieldsDisplay hide">
+    <img src="./image/shield.png" alt="Shield" class="shield">
+    <img src="./image/shield.png" alt="Shield" class="shield">
+    <img src="./image/shield.png" alt="Shield" class="shield">
+    <img src="./image/shield.png" alt="Shield" class="shield">
+    <img src="./image/shield.png" alt="Shield" class="shield">
+  </div>
 
-    <script src="./js/gameLogic.js"></script>
+  <!-- Game-over / victory screen -->
+  <div class="endGameDisplay hide">
+    <p id="result"></p>
+    <p id="finalScore"></p>
+    <p id="highScore"></p>
+    <button id="playAgainButton">Play Again</button>
+  </div>
+
+  <!-- Background music continues during gameplay -->
+  <audio id="background-music" loop>
+    <source src="audio/The Matrix Reloaded OST - Highway Chase Music.mp3" type="audio/mpeg">
+  </audio>
+
+  <script src="./js/matrixRain.js"></script>
+  <script src="./js/gameLogic.js"></script>
 </body>
 </html>
